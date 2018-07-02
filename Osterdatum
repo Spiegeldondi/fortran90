@@ -1,0 +1,41 @@
+PROGRAM bsp01
+  IMPLICIT none
+  INTEGER :: X,K,M,S,A,D,R,OG,SZ,OE,OS,month
+
+  WRITE(*,*) "Gib eine Jahreszahl ein, für die du das Osterdatum wissen möchtest und drücke 'ENTER':"
+
+  !1. Säkularzahl
+  READ(*,*) X
+  K = X / 100
+  !2. säkulare Mondschaltung
+  M = 15 + (3*K + 3) / 4 - (8*K + 13) / 25
+  !3. säkulare Sonnenschaltung
+  S = 2 - (3*K + 3) / 4
+  !4. Mondparameter
+  A = MODULO(X,19)
+  !5. Keim für den ersten Vollmond im Frühling
+  D = MODULO((19*A + M),30)
+  !6. kalendarische Korrekturgröße
+  R = (D + A/11) / 29
+  !7. Ostergrenze
+  OG = 21 + D - R
+  !8. erster Sonntag im März
+  SZ = 7 - MODULO((X + X/4 + S),7)
+  !9. Entfernung des Ostersonntags von der Ostergrenze
+  OE = 7 - MODULO((OG - SZ),7)
+  !10. Datum des Ostersonntags als Märzdatum
+  OS = OG + OE
+
+  month = 3 ! Standardmonat, falls nicht April
+
+  ! Datum falls Aprildatum
+  IF (OS > 31) THEN
+    OS = OS - 31
+    month = 4
+  ENDIF
+
+  WRITE(*,*) "Jahr:",X
+  WRITE(*,*) "Monat:",month
+  WRITE(*,*) "Tag:",OS
+
+END PROGRAM bsp01
