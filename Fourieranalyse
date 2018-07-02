@@ -1,0 +1,17 @@
+PROGRAM bsp02
+  IMPLICIT none
+  REAL :: pi,t,a,b,c,x
+  INTEGER :: i
+	pi = ACOS(-1.)
+
+  DO i=0,100
+    x = i ! "t" muss vom Typ "REAL" sein, d.h. kann "i" nicht verwendet werden
+    t = (x/100)*2*pi
+    ! i*2*pi/100 würde es mir ersparen "x" statt "i" zu verwenden!
+    a = (8./pi**2)*(sin(2.*t))
+    b = (8./pi**2)*((sin(2.*t))-(1./9.)*sin(6.*t))
+    c = (8./pi**2)*((sin(2.*t))-(1./9.)*sin(6.*t)+(1./25.)*sin(10.*t))
+    WRITE(*,'(4(F9.6,X))') t,a,b,c
+  ENDDO
+
+END PROGRAM bsp02
